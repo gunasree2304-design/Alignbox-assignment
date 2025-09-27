@@ -1,0 +1,78 @@
+body { 
+  font-family: Arial; 
+  background: #f1f1f1; 
+  margin: 0; 
+  padding: 0; 
+}
+.chat-container {
+  width: 400px;
+  margin: 50px auto;
+  background: #fff;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  height: 600px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+.chat-header {
+  background: #4CAF50;
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+  padding: 10px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+#messages {
+  flex: 1;
+  list-style: none;
+  padding: 10px;
+  overflow-y: scroll;
+  margin: 0;
+}
+#messages li {
+  padding: 8px 12px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  max-width: 70%;
+  word-wrap: break-word;
+  display: block; /* Ensures proper alignment */
+}
+#messages li.self { 
+  background: #DCF8C6; 
+  margin-left: auto; 
+  text-align: right; /* Right-align text for own messages */
+}
+#messages li.other { 
+  background: #EDEDED; 
+  text-align: left; /* Left-align text for others */
+}
+form {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  align-items: center;
+}
+form input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  margin-left: 5px;
+}
+form button { 
+  border: none; 
+  background: #4CAF50; 
+  color: #fff; 
+  border-radius: 50%; 
+  cursor: pointer; 
+  width: 40px; 
+  height: 40px; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  font-size: 16px; 
+}
+form button:hover {
+  background: #45a049; /* Hover effect */
+}
