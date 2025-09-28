@@ -36,16 +36,16 @@ body {
   margin-bottom: 10px;
   max-width: 70%;
   word-wrap: break-word;
-  display: block; /* Ensures proper alignment */
+  display: block;
 }
 #messages li.self { 
   background: #DCF8C6; 
   margin-left: auto; 
-  text-align: right; /* Right-align text for own messages */
+  text-align: right; 
 }
 #messages li.other { 
   background: #EDEDED; 
-  text-align: left; /* Left-align text for others */
+  text-align: left; 
 }
 form {
   display: flex;
@@ -74,5 +74,6 @@ form button {
   font-size: 16px; 
 }
 form button:hover {
-  background: #45a049; /* Hover effect */
+  background: #45a049; 
+
 }
