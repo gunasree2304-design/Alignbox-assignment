@@ -7,17 +7,17 @@ const path = require("path");
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
-  cors: { origin: "*" } // Add this for better cross-tab compatibility (if needed)
+  cors: { origin: "*" } 
 });
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "public"))); // Files in public folder
+app.use(express.static(path.join(__dirname, "public"))); 
 
-// MySQL connection
+
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "root", // Change to your real password
+  password: "root", 
   database: "chat_app",
 });
 
@@ -26,45 +26,45 @@ db.connect((err) => {
   console.log("✅ MySQL Connected");
 });
 
-// Get old messages
+
 app.get("/messages", (req, res) => {
-  console.log("📥 Request for old messages"); // Debug
+  console.log("📥 Request for old messages"); 
   db.query("SELECT * FROM messages ORDER BY timestamp ASC", (err, results) => {
     if (err) {
       console.error("❌ DB fetch error:", err);
       return res.status(500).json({ error: "DB error" });
     }
-    console.log(`📥 Fetched ${results.length} old messages`); // Debug
+    console.log(`📥 Fetched ${results.length} old messages`); 
     res.json(results);
   });
 });
 
 
 io.on("connection", (socket) => {
-  console.log(`⚡ User connected: Socket ID ${socket.id}`); // Debug: Unique ID per tab
-  console.log(`👥 Total connected clients: ${io.engine.clientsCount}`); // Debug: Count
+  console.log(`⚡ User connected: Socket ID ${socket.id}`); 
+  console.log(`👥 Total connected clients: ${io.engine.clientsCount}`); 
 
   socket.on("sendMessage", (data) => {
     const { sender, message } = data;
-    console.log(`📤 Received sendMessage from ${sender}: ${message} (Socket: ${socket.id})`); // Debug
+    console.log(`📤 Received sendMessage from ${sender}: ${message} (Socket: ${socket.id})`); 
     if (!message || !sender) {
       console.log("❌ Invalid message data");
       return;
     }
 
-    // Insert with timestamp
+  
     db.query(
       "INSERT INTO messages (sender, message) VALUES (?, ?)",
       [sender, message],
       (err, result) => {
         if (err) {
           console.error("❌ DB insert error:", err);
-          socket.emit("error", { message: "Failed to save message" }); // Send error to sender
+          socket.emit("error", { message: "Failed to save message" }); 
           return;
         }
         const payload = { id: result.insertId, sender, message, timestamp: new Date() };
-        console.log(`🔄 Broadcasting to ${io.engine.clientsCount - 1} other clients: ${sender}: ${message}`); // Debug
-        socket.broadcast.emit("receiveMessage", payload); // Send to all OTHER clients only
+        console.log(`🔄 Broadcasting to ${io.engine.clientsCount - 1} other clients: ${sender}: ${message}`); 
+        socket.broadcast.emit("receiveMessage", payload);
       }
     );
   });
@@ -76,4 +76,5 @@ io.on("connection", (socket) => {
 });
 
 const PORT = 3000;
+
 server.listen(PORT, () => console.log(`🚀 Server running at http://localhost:${PORT}`));
